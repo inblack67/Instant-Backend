@@ -5,8 +5,10 @@ defmodule InstantWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", InstantWeb do
+  scope "/api/graphql" do
     pipe_through :api
+    get "/", Absinthe.Plug.GraphiQL, schema: InstantWeb.Schema, interface: :playground
+    post "/", Absinthe.Plug, schema: InstantWeb.Schema
   end
 
   # Enables LiveDashboard only for development
