@@ -10,19 +10,9 @@
 - GraphQL
   - Absinthe
 
-#### Frontend Web
-
-- Next.js/React.js
-- GraphQL
-  - URQL
-  - GraphQL Codegen
-- Recoil
-- TailwindCSS
-
-#### Frontend App
+#### App
 
 - Flutter
-  - Cupertino Theme
   - GraphQL
     - Ferry
 
