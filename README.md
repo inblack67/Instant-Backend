@@ -15,8 +15,3 @@
 - Flutter
   - GraphQL
     - Ferry
-
-#### Devops
-
-- Gigalixir
-- Vercel
