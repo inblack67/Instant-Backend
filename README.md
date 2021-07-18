@@ -1,7 +1,5 @@
 # Instant
 
-### Instant
-
 #### Backend
 
 - Elixir
@@ -25,5 +23,10 @@
 
 - Flutter
   - Cupertino Theme
+  - GraphQL
+    - Ferry
 
 #### Devops
+
+- Gigalixir
+- Vercel
