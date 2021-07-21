@@ -29,9 +29,6 @@ defmodule Instant.Auth.User do
   end
 
   defp encryptPassword(changeset = %Ecto.Changeset{}) do
-    IO.inspect("changeset received")
-    IO.inspect(changeset)
-
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: password}} ->
         put_change(changeset, :password, Argon2.hash_pwd_salt(password))

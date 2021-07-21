@@ -7,6 +7,7 @@ defmodule InstantWeb.Schema.Types.UserType do
     field :email, :string
     field :username, :string
     field :password, :string
+    field :inserted_at, :string
   end
 
   input_object :register_user_input_type do

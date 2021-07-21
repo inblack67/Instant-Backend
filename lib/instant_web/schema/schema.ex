@@ -10,6 +10,11 @@ defmodule InstantWeb.Schema do
     field :hello, :string do
       resolve(fn _, _ -> {:ok, "hello worlds"} end)
     end
+
+    @desc "Get all Users"
+    field :users, list_of(:user_type) do
+      resolve(&UserResolver.get_users/3)
+    end
   end
 
   mutation do

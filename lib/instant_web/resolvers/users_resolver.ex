@@ -1,17 +1,10 @@
 defmodule InstantWeb.Resolvers.UserResolver do
   alias Instant.Auth.UserRepo
+  alias InstantWeb.Utils
 
-  def format_changeset_errors(changeset_errors) do
-    errors =
-      Enum.map(changeset_errors, fn error ->
-        {field_name, {message, _}} = error
-        IO.inspect(field_name)
-        IO.inspect(message)
-        formatted_error = "#{field_name} #{message}"
-        formatted_error
-      end)
-
-    errors
+  def get_users(_, _, _) do
+    users = UserRepo.get_all()
+    {:ok, users}
   end
 
   def register_user(_, %{input: input}, _) do
@@ -22,8 +15,8 @@ defmodule InstantWeb.Resolvers.UserResolver do
         {:ok, true}
 
       {:error, %{errors: errors}} ->
-        formatted_errros = format_changeset_errors(errors)
-        {:error, formatted_errros}
+        formatted_errors = Utils.format_changeset_errors(errors)
+        {:error, formatted_errors}
 
       {_, _} ->
         {:error, "Internal Server Error"}
