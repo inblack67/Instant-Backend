@@ -14,8 +14,8 @@ defmodule InstantWeb.Resolvers.UserResolver do
       {:ok, _} ->
         {:ok, true}
 
-      {:error, %{errors: errors}} ->
-        formatted_errors = Utils.format_changeset_errors(errors)
+      {:error, %Ecto.Changeset{} = changeset} ->
+        formatted_errors = Utils.format_changeset_errors(changeset)
         {:error, formatted_errors}
 
       {_, _} ->
