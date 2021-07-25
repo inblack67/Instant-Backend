@@ -24,6 +24,6 @@ defmodule Instant.Auth.UserRepo do
   end
 
   def get_by_username(username) do
-    Repo.get!(User, username: username)
+    Repo.get_by(User, username: username)
   end
 end
