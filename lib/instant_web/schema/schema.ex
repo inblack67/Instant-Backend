@@ -28,6 +28,22 @@ defmodule InstantWeb.Schema do
     field :login_user, type: :boolean do
       arg(:input, non_null(:login_user_input_type))
       resolve(&UserResolver.login_user/3)
+
+      middleware(fn resolution, _ ->
+        IO.puts("resolution => ")
+        IO.inspect(resolution.value)
+        IO.inspect(resolution)
+
+        case resolution.value do
+          {:ok, loggedIn?} ->
+            IO.puts("ok ran")
+            IO.inspect(loggedIn?)
+            Map.update!(resolution, :context, &Map.put(&1, :loggedIn?, loggedIn?))
+
+          _ ->
+            resolution
+        end
+      end)
     end
   end
 end

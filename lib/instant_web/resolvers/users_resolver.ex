@@ -3,7 +3,7 @@ defmodule InstantWeb.Resolvers.UserResolver do
   alias Instant.Auth.UserRepo
   alias InstantWeb.Utils
 
-  def login_user(_, %{input: %{password: password, username: username}}, _) do
+  def login_user(_, %{input: %{password: password, username: username}}, ctx) do
     user = UserRepo.get_by_username(username)
 
     case user do
@@ -11,7 +11,7 @@ defmodule InstantWeb.Resolvers.UserResolver do
         case Argon2.verify_pass(password, user.password) do
           true ->
             {:ok, true}
-            
+
           _ ->
             {:error, "Invalid Credentials"}
         end

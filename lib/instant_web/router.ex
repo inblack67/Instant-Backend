@@ -3,6 +3,7 @@ defmodule InstantWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug InstantWeb.Context
   end
 
   scope "/api/graphql" do
