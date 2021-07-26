@@ -1,8 +1,20 @@
 defmodule InstantWeb.Router do
   use InstantWeb, :router
 
+  alias InstantWeb.Plugs.SetUser
+  alias InstantWeb.AuthController
+
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug SetUser
+  end
+
+  scope "/api" do
+    pipe_through :api
+
+    resources("/auth", AuthController, only: [:create, :new, :index])
+    delete "/auth/logout", AuthController, :delete
   end
 
   scope "/api/graphql" do
