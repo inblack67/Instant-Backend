@@ -1,6 +1,7 @@
 defmodule InstantWeb.AuthController do
   use InstantWeb, :controller
 
+  alias InstantWeb.Utils
   alias Instant.Auth.User
   alias Instant.Auth.UserRepo
 
@@ -15,17 +16,26 @@ defmodule InstantWeb.AuthController do
     render(conn, "new.json")
   end
 
-  def create(conn, %{"username" => username, "password" => password}) do
-    user = UserRepo.get_by_username(username)
+  def create(conn, payload) do
+    changeset = User.login_changeset(payload)
 
-    case user do
-      %User{} ->
-        case Argon2.verify_pass(password, user.password) do
-          true ->
-            conn
-            |> put_status(:created)
-            |> put_session(:current_user_id, user.id)
-            |> render("loggedin.json")
+    case changeset do
+      %Ecto.Changeset{valid?: true, changes: %{password: password, username: username}} ->
+        user = UserRepo.get_by_username(username)
+
+        case user do
+          %User{} ->
+            case Argon2.verify_pass(password, user.password) do
+              true ->
+                conn
+                |> put_status(:created)
+                |> put_session(:current_user_id, user.id)
+                |> render("loggedin.json")
+
+              _ ->
+                conn
+                |> render("error.json", error: "Invalid Credentials")
+            end
 
           _ ->
             conn
@@ -33,7 +43,7 @@ defmodule InstantWeb.AuthController do
         end
 
       _ ->
-        {:error, "Invalid Credentials"}
+        conn |> render("error.json", errors: Utils.format_changeset_errors(changeset))
     end
   end
 

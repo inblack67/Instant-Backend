@@ -30,4 +30,8 @@ defmodule InstantWeb.AuthView do
   def render("error.json", %{error: error}) do
     %{success: false, error: error}
   end
+
+  def render("error.json", %{errors: errors}) do
+    %{success: false, errors: errors}
+  end
 end

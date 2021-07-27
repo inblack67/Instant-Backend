@@ -21,11 +21,19 @@ defmodule Instant.Auth.User do
     |> unique_constraint(:username)
     |> unique_constraint(:email)
     |> validate_format(:email, ~r/@/)
-    |> update_change(:email, fn el -> String.downcase(el) end)
+    |> update_change(:email, &String.downcase/1)
+    |> update_change(:username, &String.downcase/1)
     |> validate_length(:username, min: 5, max: 30)
     |> validate_length(:name, min: 3, max: 30)
     |> validate_length(:password, min: 8, max: 30)
     |> encryptPassword
+  end
+
+  def login_changeset(attrs) do
+    %User{}
+    |> cast(attrs, [:username, :password])
+    |> validate_required([:username, :password])
+    |> update_change(:username, &String.downcase/1)
   end
 
   defp encryptPassword(changeset = %Ecto.Changeset{}) do
