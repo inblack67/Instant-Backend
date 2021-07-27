@@ -3,7 +3,6 @@ defmodule InstantWeb.Plugs.SetUser do
 
   alias Instant.Auth.UserRepo
 
-  @spec init(any) :: nil
   def init(_params) do
   end
 
