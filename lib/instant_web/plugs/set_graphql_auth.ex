@@ -1,13 +1,11 @@
-defmodule InstantWeb.Plugs.ProtectGraphql do
+defmodule InstantWeb.Plugs.SetGraphqlAuth do
   import Plug.Conn
 
   def init(_params) do
   end
 
   def call(conn, _params) do
-    IO.inspect(conn)
     user_id = Plug.Conn.get_session(conn, :current_user_id)
-    IO.puts("user_id => #{user_id}")
 
     if user_id do
       conn

@@ -2,12 +2,19 @@ defmodule InstantWeb.Router do
   use InstantWeb, :router
 
   alias InstantWeb.Plugs.SetUser
+  alias InstantWeb.Plugs.SetGraphqlAuth
   alias InstantWeb.AuthController
 
   pipeline :api do
     plug :accepts, ["json"]
     plug :fetch_session
     plug SetUser
+  end
+
+  pipeline :graphql do
+    plug :accepts, ["json"]
+    plug :fetch_session
+    plug SetGraphqlAuth
   end
 
   scope "/api" do
@@ -18,7 +25,7 @@ defmodule InstantWeb.Router do
   end
 
   scope "/api/graphql" do
-    pipe_through :api
+    pipe_through :graphql
     get "/", Absinthe.Plug.GraphiQL, schema: InstantWeb.Schema, interface: :playground
     post "/", Absinthe.Plug, schema: InstantWeb.Schema
   end
