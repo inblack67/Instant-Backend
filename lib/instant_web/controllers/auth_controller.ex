@@ -6,8 +6,25 @@ defmodule InstantWeb.AuthController do
   alias InstantWeb.Utils
   alias InstantWeb.Utils.Constants
 
-  plug :dont_exploit_me when action in [:create]
+  plug :dont_exploit_me when action in [:create, :register]
   plug :protect_me when action in [:index, :delete]
+
+  def register(conn, payload) do
+    res = UserRepo.add(payload)
+
+    case res do
+      {:ok, _} ->
+        conn
+        |> put_status(:created)
+        |> render("acknowledge.json", %{message: "Registered"})
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn |> render("error.json", errors: Utils.format_changeset_errors(changeset))
+
+      true ->
+        conn |> render("error.json", error: Constants.internal_server_error())
+    end
+  end
 
   def index(conn, _params) do
     render(conn, "getme.json")

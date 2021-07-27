@@ -18,12 +18,6 @@ defmodule InstantWeb.Schema do
   end
 
   mutation do
-    @desc "Register a new user"
-    field :register_user, type: :boolean do
-      arg(:input, non_null(:register_user_input_type))
-      resolve(&UserResolver.register_user/3)
-    end
-
     @desc "Login User"
     field :login_user, type: :boolean do
       arg(:input, non_null(:login_user_input_type))

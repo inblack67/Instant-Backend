@@ -7,7 +7,13 @@ defmodule Instant.Auth.UserRepo do
   def get_all(limit \\ 20) do
     Repo.all(
       from u in User,
-        select: %{email: u.email, username: u.username, name: u.name, inserted_at: u.inserted_at},
+        select: %{
+          email: u.email,
+          username: u.username,
+          name: u.name,
+          inserted_at: u.inserted_at,
+          id: u.id
+        },
         limit: ^limit,
         order_by: [desc: u.inserted_at]
     )
