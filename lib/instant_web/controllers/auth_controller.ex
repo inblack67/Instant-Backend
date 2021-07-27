@@ -1,19 +1,16 @@
 defmodule InstantWeb.AuthController do
   use InstantWeb, :controller
 
-  alias InstantWeb.Utils
   alias Instant.Auth.User
   alias Instant.Auth.UserRepo
+  alias InstantWeb.Utils
+  alias InstantWeb.Utils.Constants
 
   plug :dont_exploit_me when action in [:create]
   plug :protect_me when action in [:index, :delete]
 
   def index(conn, _params) do
     render(conn, "getme.json")
-  end
-
-  def new(conn, _params) do
-    render(conn, "new.json")
   end
 
   def create(conn, payload) do
@@ -30,16 +27,16 @@ defmodule InstantWeb.AuthController do
                 conn
                 |> put_status(:created)
                 |> put_session(:current_user_id, user.id)
-                |> render("loggedin.json")
+                |> render("acknowledge.json", %{message: "Logged In"})
 
               _ ->
                 conn
-                |> render("error.json", error: "Invalid Credentials")
+                |> render("error.json", error: Constants.invalid_credentials())
             end
 
           _ ->
             conn
-            |> render("error.json", error: "Invalid Credentials")
+            |> render("error.json", error: Constants.invalid_credentials())
         end
 
       _ ->
@@ -52,14 +49,14 @@ defmodule InstantWeb.AuthController do
       conn
       |> Plug.Conn.clear_session()
 
-    render(conn, "delete.json")
+    render(conn, "acknowledge.json", %{message: "Logged Out"})
   end
 
   defp dont_exploit_me(conn, _params) do
     if !conn.assigns.user_signed_in? do
       conn
     else
-      send_resp(conn, 401, "Already Authenticated")
+      send_resp(conn, 401, Constants.not_authorized())
 
       conn
       |> halt()
@@ -70,7 +67,7 @@ defmodule InstantWeb.AuthController do
     if conn.assigns.user_signed_in? do
       conn
     else
-      send_resp(conn, 401, "Not Authenticated")
+      send_resp(conn, 401, Constants.not_authenticated())
 
       conn
       |> halt()

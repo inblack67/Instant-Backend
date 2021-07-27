@@ -1,12 +1,8 @@
 defmodule InstantWeb.AuthView do
   use InstantWeb, :view
 
-  def render("new.json", _payload) do
-    %{success: true, message: "hello worlds"}
-  end
-
-  def render("loggedin.json", _payload) do
-    %{success: true, message: "Logged In"}
+  def render("acknowledge.json", %{message: message}) do
+    %{success: true, message: message}
   end
 
   def render("getme.json", %{current_user: current_user}) do
@@ -21,10 +17,6 @@ defmodule InstantWeb.AuthView do
         }
       }
     }
-  end
-
-  def render("delete.json", _payload) do
-    %{success: true, message: "Logged Out"}
   end
 
   def render("error.json", %{error: error}) do

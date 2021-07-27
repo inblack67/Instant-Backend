@@ -20,7 +20,7 @@ defmodule InstantWeb.Router do
   scope "/api" do
     pipe_through :api
 
-    resources("/auth", AuthController, only: [:create, :new, :index])
+    resources("/auth", AuthController, only: [:create, :index])
     delete "/auth/logout", AuthController, :delete
   end
 

@@ -1,6 +1,8 @@
 defmodule InstantWeb.Plugs.SetGraphqlAuth do
   import Plug.Conn
 
+  alias InstantWeb.Utils.Constants
+
   def init(_params) do
   end
 
@@ -10,7 +12,7 @@ defmodule InstantWeb.Plugs.SetGraphqlAuth do
     if user_id do
       conn
     else
-      send_resp(conn, 401, "Not Authenticated")
+      send_resp(conn, 401, Constants.not_authenticated())
       conn |> halt()
     end
   end
