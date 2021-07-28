@@ -24,4 +24,28 @@ defmodule InstantWeb.Schema do
       resolve(&UserResolver.login_user/3)
     end
   end
+
+  subscription do
+    field :login_subscription, :string do
+      config(fn args, _ ->
+        IO.puts("args => ")
+        IO.inspect(args)
+        {:ok, topic: "login"}
+      end)
+
+      trigger(:login_user,
+        topic: fn res ->
+          IO.puts("res *")
+          IO.inspect(res)
+          "login"
+        end
+      )
+
+      resolve(fn res, _, _ ->
+        IO.puts("subs resolving with **")
+        IO.inspect(res)
+        {:ok, "loggedin"}
+      end)
+    end
+  end
 end

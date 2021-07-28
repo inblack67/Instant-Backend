@@ -14,9 +14,10 @@ defmodule Instant.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Instant.PubSub},
       # Start the Endpoint (http/https)
-      InstantWeb.Endpoint
+      InstantWeb.Endpoint,
       # Start a worker by calling: Instant.Worker.start_link(arg)
       # {Instant.Worker, arg}
+      {Absinthe.Subscription, InstantWeb.Endpoint}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

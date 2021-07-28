@@ -28,7 +28,12 @@ defmodule InstantWeb.Router do
 
   scope "/api/graphql" do
     pipe_through :graphql
-    get "/", Absinthe.Plug.GraphiQL, schema: InstantWeb.Schema, interface: :playground
+
+    get "/", Absinthe.Plug.GraphiQL,
+      schema: InstantWeb.Schema,
+      interface: :playground,
+      socket: InstantWeb.UserSocket
+
     post "/", Absinthe.Plug, schema: InstantWeb.Schema
   end
 
