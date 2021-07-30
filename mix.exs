@@ -47,7 +47,8 @@ defmodule Instant.MixProject do
       {:absinthe_plug, "~> 1.5.8"},
       {:absinthe_phoenix, "~> 2.0.0"},
       {:dataloader, "~> 1.0.0"},
-      {:argon2_elixir, "~> 2.4.0"}
+      {:argon2_elixir, "~> 2.4.0"},
+      {:cors_plug, "~> 2.0"}
     ]
   end
 
